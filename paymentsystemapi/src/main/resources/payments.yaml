@@ -1,0 +1,8 @@
+http:
+  port: "8081"
+db:
+  host: "34.67.195.116"
+  port: "3306"
+  user: "root"
+  pass: "mulesoft"
+  database: "PROJECT"

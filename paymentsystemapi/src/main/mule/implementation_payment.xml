@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="getAllPaymentFlow" doc:id="8a0b6fbf-c8fe-4961-9bba-92b021f3fdf9" >
+		<db:select doc:name="Select" doc:id="8940e45a-f874-490e-8c91-ed71587a34c2" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from payments ]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="cd09687b-987d-4c75-876a-b10f6fc0f369" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( payload01 , indexOfPayload01 ) -> {
+	TransactionID: payload01.transId,
+	OrderID: payload01.Oid default "",
+	CustID: payload01.Cid default "",
+	PaymentMode: payload01.paymentMode default "",
+	PaymentDate: payload01.paymentDate as String {format: "dd/MMM/YYYY"},
+	Amount: payload01.amount default 0
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="getPaymentByIDFlow" doc:id="66ff0ab4-240b-4287-ac18-f58a56c214c3" >
+		<db:query-single doc:name="Query single" doc:id="085c1a9e-dc45-4e51-8eda-65ad084306a3" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from payments where transId = :id]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	id: vars.transactionID
+}]]]></db:input-parameters>
+		</db:query-single>
+		<ee:transform doc:name="Transform Message" doc:id="996073dd-4d18-458e-aa2d-c0bf3565b95c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+[{
+	TransactionID: payload.transId,
+	OrderID: payload.Oid default "",
+	CustID: payload.Cid default "",
+	PaymentMode: payload.paymentMode default "",
+	PaymentDate: payload.paymentDate as String {format: "dd/MMM/YYYY"},
+	Amount: payload.amount default 0
+}]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

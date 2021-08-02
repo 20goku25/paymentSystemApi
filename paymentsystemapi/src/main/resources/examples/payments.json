@@ -1,0 +1,11 @@
+[
+	{	
+		"TransactionID": 1,
+		"OrderID": "O1001",
+  		"CustID": "C1001",
+  		"PaymentMode": "online payment",
+  		"PaymentDate": "20 MAR,2020",
+  		"Amount": 840
+	}
+]
+

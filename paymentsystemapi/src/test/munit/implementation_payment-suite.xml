@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="implementation_payment-suite.xml" />
+	<munit:test name="getAllPaymentFlow-test" doc:id="049adbe2-a540-4848-8d74-619d0e8f7539" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="4bc9d12d-a495-4515-ba6d-c4b324a7101c" >
+				<munit:payload value="#[readUrl('classpath://getAllPaymentFlowtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getAllPaymentFlowtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getAllPaymentFlowtest\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getAllPaymentFlow" doc:id="50a2dfb3-ca08-4f27-94f4-fef124e2af60" name="getAllPaymentFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="c1f50427-6d2f-4fe2-814c-91dc116eed03" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getAllPaymentFlowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="getPaymentByIDFlow-test" doc:id="57703640-d16c-4b0a-bd15-9faa3a20f263" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="48fd4b21-f972-4478-bb07-39d06064119e" >
+				<munit:payload value="#[readUrl('classpath://getPaymentByIDFlowtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getPaymentByIDFlowtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getPaymentByIDFlowtest\set-event_variable_.dwl')]" />
+					<munit:variable key="transactionID" value="#[output application/java --- readUrl('classpath://getPaymentByIDFlowtest\set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getPaymentByIDFlow" doc:id="4e2087d8-7bec-4704-aa9e-141bb7410c11" name="getPaymentByIDFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="afe727b5-b754-4779-b356-461b1e75a600" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getPaymentByIDFlowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
