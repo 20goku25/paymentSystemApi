@@ -31,6 +31,19 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
+				  <configuration>
+					<cloudHubDeployment>
+						<uri>https://anypoint.mulesoft.com/</uri>
+						<username>nayan_project</username>
+						<password>Nayan211</password>
+						<environment>Sandbox</environment>
+						<muleVersion>4.3.0</muleVersion>
+						<workers>1</workers>
+						<workerType>Micro</workerType>
+						<applicationName>paymentsystemapi</applicationName>
+						<objectStoreV2>true</objectStoreV2>
+					</cloudHubDeployment>
+				 </configuration>
 					<sharedLibraries>
 						<sharedLibrary>
 							<groupId>mysql</groupId>
@@ -123,6 +136,11 @@
 			<artifactId>assertions</artifactId>
 			<version>1.0.2</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.sonarsource.scanner.maven</groupId>
+			<artifactId>sonar-maven-plugin</artifactId>
+			<version>3.6.1.1688</version>
 		</dependency>
 	</dependencies>
 
