@@ -100,9 +100,9 @@
 	</build>
 	<distributionManagement>
         <snapshotRepository>
-              <id>paymentRepo</id>
-              <name>paymentRepo</name>
-              <url>http://localhost:8091/repository/paymentRepo/</url>
+              <id>PaymentRepo</id>
+              <name>PaymentRepo</name>
+              <url>http://localhost:8091/repository/PaymentRepo/</url>
         </snapshotRepository>
      </distributionManagement>
 
